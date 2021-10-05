@@ -20,7 +20,6 @@ func convert(fpath string) string {
 }
 
 func main() {
-	// Read files and dirs.
 	for _, f := range GetFiles("./dojo1/kadai1/sample") {
 		fmt.Println("Convert", f, "to", convert(f))
 	}
