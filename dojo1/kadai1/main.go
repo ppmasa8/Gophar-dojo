@@ -4,21 +4,28 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
+	"regexp"
 )
 
-func convert() {
-
+func convert(fpath string) string {
+	str := fpath
+	rep := regexp.MustCompile(`png$`)
+	str = rep.ReplaceAllString(str, "jpg")
+	if err := os.Rename(fpath, str); err != nil {
+		log.Fatal(err)
+	}
+	return str
 }
 
 func main() {
 	// Read files and dirs.
 	for _, f := range GetFiles("./dojo1/kadai1/sample") {
-		fmt.Println(f)
+		fmt.Println("Convert", f, "to", convert(f))
 	}
 }
 
-// TODO split get files func and recursive dir
 func GetFiles(dir string) []string {
 	var result []string
 	files, err := ioutil.ReadDir(dir)
