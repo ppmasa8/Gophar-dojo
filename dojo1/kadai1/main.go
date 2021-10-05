@@ -18,6 +18,7 @@ func main() {
 	}
 }
 
+// TODO split get files func and recursive dir
 func GetFiles(dir string) []string {
 	var result []string
 	files, err := ioutil.ReadDir(dir)
