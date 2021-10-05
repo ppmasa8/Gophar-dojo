@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"path/filepath"
 )
 
 func convert() {
@@ -11,12 +12,25 @@ func convert() {
 }
 
 func main() {
-	// Readfiles
-	files, err := ioutil.ReadDir("./dojo1/kadai1/")
+	// Read files and dirs.
+	for _, f := range GetFiles("./dojo1/kadai1/sample") {
+		fmt.Println(f)
+	}
+}
+
+func GetFiles(dir string) []string {
+	var result []string
+	files, err := ioutil.ReadDir(dir)
 	if err != nil {
 		log.Fatal(err)
 	}
 	for _, file := range files {
-		fmt.Println(file.Name())
+		fpath := filepath.Join(dir, file.Name())
+		if file.IsDir() {
+			result = append(result, GetFiles(fpath)...)
+			continue
+		}
+		result = append(result, fpath)
 	}
+	return result
 }
